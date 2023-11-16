@@ -19,13 +19,12 @@ if os.path.exists('env.py'):
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-#CORS_ALLOWED_ORIGINS = [
-#   'https://3000-johnrearden-moments-rhqz95ehtsk.ws-eu106.gitpod.io',
- #   'https://3000-johnrearden-moments-rhqz95ehtsk.ws-eu106.gitpod.io/'
-#]
+CORS_ALLOW_CREDENTIALS = True
 
-#CORS_ALLOW_ALL_ORIGINS = True
-
+if 'CLIENT_ORIGIN' in os.environ:
+    CORS_ALLOWED_ORIGINS = [
+        os.environ.get('CLIENT_ORIGIN')
+    ]
 if 'CLIENT_ORIGIN_DEV' in os.environ:
     extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
     CORS_ALLOWED_ORIGIN_REGEXES = [
