@@ -30,7 +30,7 @@ DEBUG = 'DEBUG' in os.environ
 
 ALLOWED_HOSTS = [
     '8000-johnrearden-drfessentia-ivmamxsnf00.ws-eu106.gitpod.io',
-    'drf-walkthrough-jr.herokuapp.com',
+    'drf-walkthrough-jr-a4bd10db8e16.herokuapp.com',
 ]
 
 
