@@ -20,7 +20,7 @@ if os.path.exists('env.py'):
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 CORS_ALLOWED_ORIGINS = [
-    'https://3000-johnrearden-moments-rhqz95ehtsk.ws-eu106.gitpod.io/'
+    'https://3000-johnrearden-moments-rhqz95ehtsk.ws-eu106.gitpod.io'
 ]
 
 #if 'CLIENT_ORIGIN_DEV' in os.environ:
