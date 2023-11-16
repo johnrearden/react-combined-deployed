@@ -24,11 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
  #   'https://3000-johnrearden-moments-rhqz95ehtsk.ws-eu106.gitpod.io/'
 #]
 
-if 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
-    ]
+CORS_ALLOW_ALL_ORIGINS = True
+
+# if 'CLIENT_ORIGIN_DEV' in os.environ:
+#     extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
+#     CORS_ALLOWED_ORIGIN_REGEXES = [
+#         rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
+#     ]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
