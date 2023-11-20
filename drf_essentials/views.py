@@ -10,7 +10,7 @@ from .settings import (
 def root_route(request):
     return Response('Welcome to the API')
 
-@api_view()
+@api_view(['POST'])
 def logout_route(request):
     response = Response()
     response.set_cookie(
@@ -31,3 +31,4 @@ def logout_route(request):
         samesite=JWT_AUTH_SAMESITE,
         secure=JWT_AUTH_SECURE,
     )
+    return response
