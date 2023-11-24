@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
-import re
 import dj_database_url
 from pathlib import Path
 
@@ -21,14 +20,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 CORS_ALLOW_CREDENTIALS = True
 
-if 'CLIENT_ORIGIN' in os.environ:
-    CORS_ALLOWED_ORIGINS = [
+CORS_ALLOWED_ORIGINS = [
         os.environ.get('CLIENT_ORIGIN')
-    ]
-if 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
     ]
 
 # Quick-start development settings - unsuitable for production
@@ -40,7 +33,7 @@ SECRET_KEY = 'django-insecure-8uj$_4-vg2v8wdjl-5&uw!yz5vcbuy2%et@+-1s_5a=jp=1ho8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEBUG' in os.environ
 
-ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS', '')]
+ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS'), 'localhost']
 
 # Application definition
 
