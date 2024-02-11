@@ -100,7 +100,12 @@ const NavBar = () => {
 
                         {currentUser && addPostIcon}
                         {currentUser ? loggedInIcons : loggedOutIcons}
-
+                        <NavLink
+                            className={styles.NavLink}
+                            activeClassName={styles.Active}
+                            to="/mp3_editor/1">
+                            <i className="fas fa-stream"></i>Mp3
+                        </NavLink>
                         <NavLink exact
                             className={styles.NavLink}
                             activeClassName={styles.Active}

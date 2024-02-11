@@ -8,3 +8,9 @@ class Mp3List(generics.ListCreateAPIView):
     queryset = Mp3.objects.all()
     serializer_class = Mp3Serializer
     permission_classes = []
+
+
+class Mp3Detail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Mp3.objects.all()
+    serializer_class = Mp3Serializer
+    permission_classes = []

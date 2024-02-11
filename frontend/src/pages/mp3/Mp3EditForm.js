@@ -9,13 +9,20 @@ import appStyles from "../../App.module.css";
 import { Alert, Button } from "react-bootstrap";
 
 const Mp3EditForm = () => {
+
     const { id } = useParams();
+
     const mp3File = useRef();
+    const audioPlayerRef = useRef();
 
     const [mp3Data, setMp3Data] = useState({
         name: "",
         sound_file: "",
     });
+
+    const [audioPlayerSource, setAudioPlayerSource] = useState(null);
+
+    const [fileName, setFilename] = useState("");
 
     const { name, sound_file } = mp3Data;
 
@@ -25,14 +32,17 @@ const Mp3EditForm = () => {
         const handleMount = async () => {
             try {
                 const { data } = await axiosReq.get(`/mp3s/${id}/`);
+                console.log(data);
                 const { name, sound_file } = data;
                 setMp3Data({ name, sound_file });
+                setAudioPlayerSource(sound_file);
+                console.log(sound_file.split('/'))
+                setFilename(sound_file.split('/').pop());
             } catch (err) {
                 console.log(err);
             }
-
-            handleMount();
         }
+        handleMount();
     }, [id])
 
     const handleSubmit = async (event) => {
@@ -59,12 +69,22 @@ const Mp3EditForm = () => {
         });
     }
 
+    const handleSoundFileChange = () => {
+        if (mp3File?.current?.files[0]) {
+            const file = mp3File?.current?.files[0];
+            setAudioPlayerSource(URL.createObjectURL(file));
+            setFilename(file.name);
+        }
+    }
+
+    console.log(errors);
 
     return (
         <Form onSubmit={handleSubmit}>
-            <Row>
-                <Col className="text-center">
-                    <Form.Group>
+            <Row className="d-flex justify-content-center mt-5">
+                <Col md={8} lg={6} className="text-center">
+                    <h1>Favourite Tune</h1>
+                    <Form.Group className="border p-3">
                         <Form.Label>Name</Form.Label>
                         <Form.Control
                             type="text"
@@ -74,34 +94,43 @@ const Mp3EditForm = () => {
                         />
                     </Form.Group>
 
-                    {errors?.content?.map((message, idx) => (
-                        <Alert variant="warning" key={idx}>
-                            {message}
-                        </Alert>
-                    ))}
+                    <div className="border p-3">
+                        <h5>Current mp3 : </h5>
+                        <em>{fileName}</em>
+                        <div>
+                            <audio 
+                                controls
+                                src={audioPlayerSource}
+                                ref={audioPlayerRef}
+                            />
+                        </div>
+                        
 
-                    <Form.Group>
+                        {errors?.content?.map((message, idx) => (
+                            <Alert variant="warning" key={idx}>
+                                {message}
+                            </Alert>
+                        ))}
+
+                        <Form.Group>
                         <Form.Label
+                            className={`${btnStyles.Button} ${btnStyles.Blue} mt-3 btn`}
                             htmlFor="mp3-upload"
                         >
-                            Change your mp3 file
+                            Change the sound file
                         </Form.Label>
-                        <Form.File
-                            id="mp3-upload"
-                            ref={mp3File}
-                            accept="audio/*"
-                            onChange={(e) => {
-                                if (e.target.files.length) {
-                                    console.log('file changed');
-                                }
-                            }}
-                        />
-                    </Form.Group>
-                    
+                            <Form.File
+                                id="mp3-upload"
+                                ref={mp3File}
+                                accept="audio/*"
+                                onChange={handleSoundFileChange}
+                            />
+                        </Form.Group>
+                    </div>
 
 
-                    <Button className={`${btnStyles.Button} ${btnStyles.Blue}`} type="submit">
-                        save
+                    <Button className={`${btnStyles.Button} ${btnStyles.Blue} mt-3 w-50`} type="submit">
+                        Save Favourite Tune
                     </Button>
                 </Col>
             </Row>

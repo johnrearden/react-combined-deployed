@@ -75,7 +75,7 @@ function App() {
                     />
                     <Route
                         exact
-                        path="/mp3s/:id"
+                        path="/mp3_editor/:id"
                         render={() => <Mp3EditForm />}
                     />
                     <Route render={() => <NotFound />} />
