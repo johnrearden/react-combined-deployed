@@ -33,8 +33,11 @@ SECRET_KEY = 'django-insecure-8uj$_4-vg2v8wdjl-5&uw!yz5vcbuy2%et@+-1s_5a=jp=1ho8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEBUG' in os.environ
 
-ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOSTS'), 'localhost']
-print(ALLOWED_HOSTS)
+ALLOWED_HOSTS = [
+    os.environ.get('ALLOWED_HOSTS'),
+    'localhost',
+    '8000-johnrearden-reactcombin-0a3cn3fk4up.ws-eu108.gitpod.io',
+]
 
 # Application definition
 
@@ -63,6 +66,7 @@ INSTALLED_APPS = [
     'comments',
     'likes',
     'followers',
+    'mp3',
 ]
 
 SITE_ID = 1
@@ -104,7 +108,7 @@ WSGI_APPLICATION = 'drf_essentials.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-if 'DEV' in os.environ:
+if 'DEV_DATABASE' in os.environ:
      DATABASES = {
          'default': {
              'ENGINE': 'django.db.backends.sqlite3',

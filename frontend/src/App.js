@@ -16,6 +16,7 @@ import UsernameForm from "./pages/profiles/UsernameForm";
 import UserPasswordForm from "./pages/profiles/UserPasswordForm";
 import ProfileEditForm from "./pages/profiles/ProfileEditForm";
 import NotFound from './components/NotFound';
+import Mp3EditForm from './pages/mp3/Mp3EditForm';
 
 
 function App() {
@@ -71,6 +72,11 @@ function App() {
                         exact
                         path="/profiles/:id/edit"
                         render={() => <ProfileEditForm />}
+                    />
+                    <Route
+                        exact
+                        path="/mp3s/:id"
+                        render={() => <Mp3EditForm />}
                     />
                     <Route render={() => <NotFound />} />
                 </Switch>
