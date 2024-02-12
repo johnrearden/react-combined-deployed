@@ -32,6 +32,12 @@ const ProfileEditForm = () => {
     });
     const { name, content, image } = profileData;
 
+    // New refs and state for mp3 file and audio player
+    const mp3File = useRef();
+    const audioPlayerRef = useRef();
+    const [audioPlayerSource, setAudioPlayerSource] = useState(null);
+    const [audioFileName, setAudioFileName] = useState("No file selected yet");
+
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
@@ -39,8 +45,12 @@ const ProfileEditForm = () => {
             if (currentUser?.profile_id?.toString() === id) {
                 try {
                     const { data } = await axiosReq.get(`/profiles/${id}/`);
-                    const { name, content, image } = data;
+                    const { name, content, image, sound_file } = data;
                     setProfileData({ name, content, image });
+
+                    // Set up the audioplayer
+                    setAudioPlayerSource(sound_file);
+                    setAudioFileName(sound_file.split('/').pop());
                 } catch (err) {
                     console.log(err);
                     history.push("/");
@@ -60,6 +70,14 @@ const ProfileEditForm = () => {
         });
     };
 
+    const handleSoundFileChange = () => {
+        if (mp3File?.current?.files[0]) {
+            const file = mp3File?.current?.files[0];
+            setAudioPlayerSource(URL.createObjectURL(file));
+            setAudioFileName(file.name);
+        }
+    }
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData();
@@ -68,6 +86,11 @@ const ProfileEditForm = () => {
 
         if (imageFile?.current?.files[0]) {
             formData.append("image", imageFile?.current?.files[0]);
+        }
+
+        // Add sound file to the form data.
+        if (mp3File?.current?.files[0]) {
+            formData.append('sound_file', mp3File?.current?.files[0]);
         }
 
         try {
@@ -151,6 +174,34 @@ const ProfileEditForm = () => {
                                 }}
                             />
                         </Form.Group>
+
+                        <div className="border p-3">
+                            <h5>Favourite Tune</h5>
+                            <em>{audioFileName}</em>
+                            <div className="mt-3">
+                                <audio 
+                                    controls
+                                    src={audioPlayerSource}
+                                    ref={audioPlayerRef}
+                                />
+                            </div>
+                            
+                            <Form.Group>
+                            <Form.Label
+                                className={`${btnStyles.Button} ${btnStyles.Blue} mt-3 btn`}
+                                htmlFor="mp3-upload"
+                            >
+                                Change the sound file
+                            </Form.Label>
+                                <Form.File
+                                    id="mp3-upload"
+                                    ref={mp3File}
+                                    accept="audio/*"
+                                    onChange={handleSoundFileChange}
+                                />
+                            </Form.Group>
+                    </div>
+
                         <div className="d-md-none">{textFields}</div>
                     </Container>
                 </Col>
