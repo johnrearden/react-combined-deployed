@@ -73,11 +73,6 @@ function App() {
                         path="/profiles/:id/edit"
                         render={() => <ProfileEditForm />}
                     />
-                    <Route
-                        exact
-                        path="/mp3_editor/:id"
-                        render={() => <Mp3EditForm />}
-                    />
                     <Route render={() => <NotFound />} />
                 </Switch>
             </Container>

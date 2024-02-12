@@ -5,7 +5,6 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/esm/Row";
 import Col from "react-bootstrap/esm/Col";
 import btnStyles from "../../styles/Button.module.css";
-import appStyles from "../../App.module.css";
 import { Alert, Button } from "react-bootstrap";
 
 const Mp3EditForm = () => {
@@ -24,7 +23,7 @@ const Mp3EditForm = () => {
 
     const [fileName, setFilename] = useState("");
 
-    const { name, sound_file } = mp3Data;
+    const { name } = mp3Data;
 
     const [errors, setErrors] = useState({});
 
@@ -55,7 +54,7 @@ const Mp3EditForm = () => {
         }
 
         try {
-            const { data } = await axiosReq.put(`/mp3s/${id}/`, formData);
+            await axiosReq.put(`/mp3s/${id}/`, formData);
         } catch (err) {
             console.log(err);
             setErrors(err.response?.data);

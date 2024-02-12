@@ -50,7 +50,7 @@ const ProfileEditForm = () => {
 
                     // Set up the audioplayer
                     setAudioPlayerSource(sound_file);
-                    setAudioFileName(sound_file.split('/').pop());
+                    setAudioFileName(sound_file?.split('/').pop());
                 } catch (err) {
                     console.log(err);
                     history.push("/");
@@ -77,6 +77,14 @@ const ProfileEditForm = () => {
             setAudioFileName(file.name);
         }
     }
+
+    // Auto-play when audio source changes
+    useEffect(() => {
+        if (audioPlayerRef?.current?.src) {
+            audioPlayerRef.current.play();
+        }
+        
+    }, [audioPlayerSource])
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -175,38 +183,39 @@ const ProfileEditForm = () => {
                             />
                         </Form.Group>
 
-                        <div className="border p-3">
-                            <h5>Favourite Tune</h5>
-                            <em>{audioFileName}</em>
-                            <div className="mt-3">
-                                <audio 
-                                    controls
-                                    src={audioPlayerSource}
-                                    ref={audioPlayerRef}
-                                />
-                            </div>
-                            
-                            <Form.Group>
-                            <Form.Label
-                                className={`${btnStyles.Button} ${btnStyles.Blue} mt-3 btn`}
-                                htmlFor="mp3-upload"
-                            >
-                                Change the sound file
-                            </Form.Label>
-                                <Form.File
-                                    id="mp3-upload"
-                                    ref={mp3File}
-                                    accept="audio/*"
-                                    onChange={handleSoundFileChange}
-                                />
-                            </Form.Group>
-                    </div>
-
                         <div className="d-md-none">{textFields}</div>
                     </Container>
                 </Col>
                 <Col md={5} lg={6} className="d-none d-md-block p-0 p-md-2 text-center">
-                    <Container className={appStyles.Content}>{textFields}</Container>
+                    
+                    <div className={`${appStyles.Content} border p-3`}>
+                        <h5>Favourite Tune</h5>
+                        <em>{audioFileName}</em>
+                        <div className="mt-3">
+                            <audio 
+                                controls
+                                src={audioPlayerSource}
+                                ref={audioPlayerRef}
+                            />
+                        </div>
+                        
+                        <Form.Group>
+                        <Form.Label
+                            className={`${btnStyles.Button} ${btnStyles.Blue} mt-3 btn`}
+                            htmlFor="mp3-upload"
+                        >
+                            Change the sound file
+                        </Form.Label>
+                            <Form.File
+                                id="mp3-upload"
+                                ref={mp3File}
+                                accept="audio/*"
+                                onChange={handleSoundFileChange}
+                            />
+                        </Form.Group>
+                    </div>
+
+                    <Container className={`${appStyles.Content} mt-3`}>{textFields}</Container>
                 </Col>
             </Row>
         </Form>
