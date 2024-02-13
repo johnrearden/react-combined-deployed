@@ -167,6 +167,7 @@ REST_AUTH_SERIALIZERS = {
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -200,3 +201,5 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MAX_MP3_FILESIZE = 1048576

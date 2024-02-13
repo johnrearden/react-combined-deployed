@@ -2,7 +2,11 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 
+
 from cloudinary_storage.storage import RawMediaCloudinaryStorage
+from .validators import validate_is_sound_file
+
+
 
 
 class Profile(models.Model):
@@ -19,6 +23,9 @@ class Profile(models.Model):
         null=True,
         blank=True,
         storage=RawMediaCloudinaryStorage(),
+        validators=[
+            validate_is_sound_file,
+        ]
     )
 
     class Meta:
