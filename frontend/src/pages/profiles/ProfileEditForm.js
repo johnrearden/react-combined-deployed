@@ -144,6 +144,8 @@ const ProfileEditForm = () => {
         </>
     );
 
+    console.log(errors);
+
     return (
         <Form onSubmit={handleSubmit}>
             <Row>
@@ -191,6 +193,11 @@ const ProfileEditForm = () => {
                     <div className={`${appStyles.Content} border p-3`}>
                         <h5>Favourite Tune</h5>
                         <em>{audioFileName}</em>
+                        {errors?.sound_file?.map((message, idx) => (
+                                <Alert variant="warning" key={idx}>
+                                    {message}
+                                </Alert>
+                            ))}
                         <div className="mt-3">
                             <audio 
                                 controls
