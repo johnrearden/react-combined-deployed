@@ -61,7 +61,7 @@ function PostEditForm() {
         }
 
         try {
-            await axiosReq.put(`/posts/${id}/`, formData);
+            await axiosReq.patch(`/posts/${id}/`, formData);
             history.push(`/posts/post/${id}`);
         } catch (err) {
             console.log(err);

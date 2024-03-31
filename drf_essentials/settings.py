@@ -35,8 +35,11 @@ DEBUG = 'DEBUG' in os.environ
 
 ALLOWED_HOSTS = [
     os.environ.get('ALLOWED_HOSTS'),
+    'localhost:8000',
     'localhost',
     '8000-johnrearden-reactcombin-0a3cn3fk4up.ws-eu108.gitpod.io',
+    '8000-johnrearden-reactcombin-0a3cn3fk4up.ws-eu110.gitpod.io',
+    '127.0.0.1:8000',
 ]
 
 # Application definition
@@ -81,7 +84,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'drf_essentials.urls'
@@ -164,6 +167,15 @@ JWT_AUTH_SAMESITE = 'None'
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'drf_essentials.serializers.CurrentUserSerializer'
 }
+
+REST_AUTH = {
+    'USE_JWT': True,
+    'JWT_AUTH_SECURE': True,
+    'JWT_AUTH_COOKIE': 'my-app-auth',
+    'JWT_AUTH_REFRESH_COOKIE': 'my-refresh-token',
+    'JWT_AUTH_SAMESITE': 'None',
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
