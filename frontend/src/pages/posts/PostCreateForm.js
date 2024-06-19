@@ -23,6 +23,20 @@ function PostCreateForm() {
 
     useRedirect('loggedOut');
 
+    const [errors, setErrors] = useState({});
+    const [postData, setPostData] = useState({
+        title: "",
+        content: "",
+        image: "",
+        selectedTags: [],
+    });
+    const [tags, setTags] = useState([]);
+    const { title, content, image, selectedTags} = postData;
+
+    const imageInput = useRef(null);
+    const history = useHistory();
+
+    // On page load
     useEffect(() => {
         const get_tags = async () => {
             try {
@@ -32,31 +46,14 @@ function PostCreateForm() {
                 console.log(err);
             }
         }
-
         get_tags();
-    }, [])
-
-    console.log(tags);
-
-    const [errors, setErrors] = useState({});
-    const [postData, setPostData] = useState({
-        title: "",
-        content: "",
-        image: "",
-    });
-    const [tags, setTags] = useState([]);
-    const { title, content, image} = postData;
-
-    const imageInput = useRef(null);
-    const history = useHistory();
+    }, []);
 
     const handleChange = (event) => {
         setPostData({
             ...postData,
             [event.target.name]: event.target.value
         });
-
-        
     }
 
     const handleSubmit = async(event) => {
@@ -65,6 +62,13 @@ function PostCreateForm() {
         formData.append('title', title);
         formData.append('content', content);
         formData.append('image', imageInput.current.files[0]);
+        selectedTags.map(tag => {
+            formData.append('tags', tag);
+        });
+        
+        for (let entry of formData.entries()) {
+            console.log(entry[0] + ': ' + entry[1]);
+          }
 
         try {
             const {data} = await axiosReq.post('/posts/', formData);
@@ -87,6 +91,19 @@ function PostCreateForm() {
         }
     }
 
+    const handleChangeTags = (event) => {
+        if (event.target.selectedOptions) {
+            const values = [];
+            const options = Array.from(event.target.selectedOptions);
+            options.map(option => values.push(option.value));
+            setPostData({
+                ...postData,
+                selectedTags: values,
+            });
+        }
+    }
+
+    console.log(tags);
     const textFields = (
         <div className="text-center">
             <Form.Group controlId="title">
@@ -119,12 +136,19 @@ function PostCreateForm() {
                 <Form.Label>Hashtags</Form.Label>
                 <Form.Control
                     as="select"
+                    name="tags"
                     multiple
+                    onChange={handleChangeTags}
                 >
-                    {tags.map(tag => {
-                        <option value={tag.id}>{tag.tag_name}</option>
-                    })}
+                    {tags.map(tag => (
+                        <option 
+                            value={tag.id}
+                            key={tag.id}
+                        >{tag.tag_name}</option>
+                    ))}
+                    
                 </Form.Control>
+                {tags.length > 0 ? <span>{tags[0].tag_name}</span> : ''}
 
             </Form.Group>
 

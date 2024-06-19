@@ -36,6 +36,7 @@ class PostList(generics.ListCreateAPIView):
     ]
 
     def perform_create(self, serializer):
+        print(self.request.data)
         serializer.save(owner=self.request.user)
 
 
