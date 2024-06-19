@@ -40,6 +40,7 @@ ALLOWED_HOSTS = [
     '8000-johnrearden-reactcombin-0a3cn3fk4up.ws-eu108.gitpod.io',
     '8000-johnrearden-reactcombin-0a3cn3fk4up.ws-eu110.gitpod.io',
     '127.0.0.1:8000',
+    '8000-johnrearden-reactcombin-dg6m39qal2j.ws.codeinstitute-ide.net',
 ]
 
 # Application definition
@@ -84,7 +85,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'drf_essentials.urls'

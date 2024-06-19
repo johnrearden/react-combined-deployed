@@ -1,8 +1,8 @@
 from django.db.models import Count
 from rest_framework import generics, permissions, filters
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Post
-from .serializers import PostSerializer
+from .models import Post, HashTag
+from .serializers import PostSerializer, HashTagSerializer
 from drf_essentials.permissions import IsOwnerOrReadOnly
 
 
@@ -37,6 +37,12 @@ class PostList(generics.ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
+
+
+class TagsList(generics.ListAPIView):
+    queryset = HashTag.objects.all()
+    serializer_class = HashTagSerializer
+    permission_classes = []
 
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):

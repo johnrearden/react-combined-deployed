@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -23,13 +23,29 @@ function PostCreateForm() {
 
     useRedirect('loggedOut');
 
+    useEffect(() => {
+        const get_tags = async () => {
+            try {
+                const {data} = await axiosReq.get('/get_all_tags/');
+                setTags(data.results);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+        get_tags();
+    }, [])
+
+    console.log(tags);
+
     const [errors, setErrors] = useState({});
     const [postData, setPostData] = useState({
         title: "",
         content: "",
         image: "",
     });
-    const { title, content, image } = postData;
+    const [tags, setTags] = useState([]);
+    const { title, content, image} = postData;
 
     const imageInput = useRef(null);
     const history = useHistory();
@@ -99,7 +115,18 @@ function PostCreateForm() {
                             <Alert variant="warning" key={idx}>{message}</Alert>
                         ))}
 
+            <Form.Group controlId="tags">
+                <Form.Label>Hashtags</Form.Label>
+                <Form.Control
+                    as="select"
+                    multiple
+                >
+                    {tags.map(tag => {
+                        <option value={tag.id}>{tag.tag_name}</option>
+                    })}
+                </Form.Control>
 
+            </Form.Group>
 
             <Button
                 className={`${btnStyles.Button} ${btnStyles.Blue}`}

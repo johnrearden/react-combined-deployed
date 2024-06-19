@@ -2,6 +2,13 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class HashTag(models.Model):
+    tag_name = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.tag_name
+
+
 class Post(models.Model):
     """
     Post model, related to 'owner', i.e. a User instance.
@@ -30,9 +37,12 @@ class Post(models.Model):
         max_length=32,
         choices = image_filter_choices,
         default = 'normal')
+    tags = models.ManyToManyField(HashTag, related_name='post_tags')
 
     class Meta:
         ordering = ['-created_at']
 
     def __str__(self):
         return f'{self.id} {self.title}'
+
+

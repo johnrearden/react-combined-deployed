@@ -1,6 +1,12 @@
 from rest_framework import serializers
-from .models import Post
+from .models import Post, HashTag
 from likes.models import Like
+
+
+class HashTagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HashTag
+        fields = ['id', 'tag_name',]
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -11,6 +17,7 @@ class PostSerializer(serializers.ModelSerializer):
     like_id = serializers.SerializerMethodField()
     comments_count = serializers.ReadOnlyField()
     likes_count = serializers.ReadOnlyField()
+    tags = HashTagSerializer(many=True)
 
     def get_is_owner(self, obj):
         request = self.context['request']
@@ -48,4 +55,5 @@ class PostSerializer(serializers.ModelSerializer):
             'id', 'owner', 'created_at', 'updated_at', 'title',
             'content', 'image', 'is_owner', 'profile_id', 'profile_image',
             'image_filter', 'like_id', 'comments_count', 'likes_count',
+            'tags'
         ]
